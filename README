@@ -1,0 +1,16 @@
+## Aggregation API
+## backend software development assesment
+
+# Application setup
+- Spring boot
+- WebFlux reactive REST API
+
+# Build
+Required tools:
+- Maven
+- Docker
+- Java 17 JDK
+
+Build within the project root folder with
+**mvn clean install**
+
