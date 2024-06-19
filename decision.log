@@ -1,0 +1,19 @@
+- I opted for reactive code for this test, although other Java solutions (Futures, Asyn calls and alike) would suffice.
+However reactive programming produces less noisy code, although might be more difficult to follow.
+- explicit converters: necessary for better control of model objects (CountryCode, OrderNumber) created during
+deserialization of REST endpoint properties defined as Strings/Integers. With custom converters one can include early
+validation of API parameters outside of the main API method body, making code cleaner and better focused on main
+responsibility
+- code reuse: one base class to access three different, yet similar REST endpoints (shipment, tracking, pricing).
+Separation into three clients will allows better control and reuse when extending REST clients further
+- TODO: replace spring components/services with records, in order to reduce the constructor boiler plate code.
+- model package: collection of domain model definitions, as simple data containers, supported by validation through
+annotations (possible also with custom validators, not really necessary here).
+- error handling: probably needs more refinement, however will effectively remove the error handling from the base code,
+allowing for cleaner code
+- aggregation service class: responsible for handling requests received through Aggregation Controller, fetching data
+through 3 REST clients, mapping and aggregation of data. Probably should have been split further. Engages one reactive
+flow per group of parameters (shipment, tracking, pricing), does the mapping of returned result, and collection from 3
+flows into final result.
+- Shipment/pricing/tracking test client: implemented as reactive web client to return result compatible with reactive
+pattern set on in the AggregationService class.

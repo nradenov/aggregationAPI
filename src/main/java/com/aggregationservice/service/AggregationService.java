@@ -12,20 +12,10 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class AggregationService {
-
-    private final RemoteApiClient<List<Product>> shipmentsClient;
-    private final RemoteApiClient<Tracking> trackingClient;
-    private final RemoteApiClient<Pricing> pricingClient;
-
-    public AggregationService(RemoteApiClient<List<Product>> shipmentsClient,
-                              RemoteApiClient<Tracking> trackingClient,
-                              RemoteApiClient<Pricing> pricingClient){
-        this.shipmentsClient = shipmentsClient;
-        this.trackingClient = trackingClient;
-        this.pricingClient = pricingClient;
-    }
-
+public record AggregationService (RemoteApiClient<List<Product>> shipmentsClient,
+                                  RemoteApiClient<Tracking> trackingClient,
+                                    RemoteApiClient<Pricing> pricingClient) {
+    
     public Mono<Aggregate> aggregate(List<OrderNumber> shipmentONs, List<OrderNumber> trackingONs, List<CountryCode> pricingCCs){
 
         var schipmentMonoMap = Optional.ofNullable(shipmentONs).map(ons -> Flux.fromStream(ons.stream().distinct())
